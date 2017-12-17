@@ -1,17 +1,21 @@
 
-package com.spothero.interview.webapp.pojo;
+package com.spothero.interview.webapp.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @XmlRootElement
 @JsonInclude(Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rate {
 
     private String days;
     private String times;
     private int price;
+
 
     public Rate() {
     }
@@ -48,4 +52,6 @@ public class Rate {
                 ", price=" + price +
                 '}';
     }
+
+
 }

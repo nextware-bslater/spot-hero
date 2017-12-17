@@ -4,6 +4,7 @@ package com.spothero.interview.webapp;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -32,7 +33,9 @@ public class RateApplication extends Application{
 
             // create a resource config that scans for JAX-RS resources and providers
             // in com.spothero.interview.webapp package
-            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview.webapp");
+            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview.webapp", "org.glassfish.jersey.media.multipart");
+            rc.register(MultiPartFeature.class);
+            rc.register(JacksonJsonProvider.class);
 
             // create and start a new instance of grizzly http server
             // exposing the Jersey application at BASE_URI
@@ -55,7 +58,8 @@ public class RateApplication extends Application{
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<Class<?>>();
 //        classes.add(JacksonConfig.class);
-        classes.add(JacksonJsonProvider.class);
+//        classes.add(JacksonJsonProvider.class);
+//        classes.add(MultiPartFeature.class);
 //        classes.add(Jackson2JsonpInterceptor.class);
         return classes;
     }
