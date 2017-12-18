@@ -4,17 +4,18 @@
  *   All Rights Reserved.
  */
 
+import com.fasterxml.jackson.jaxrs.xml.JacksonJaxbXMLProvider;
+import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.glassfish.jersey.server.Uri;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -25,13 +26,22 @@ public class FileClientTest {
 
         final Client client = ClientBuilder.newBuilder()
                 .register(MultiPartFeature.class)
+//                .register(JacksonJsonProvider.class)
+//                .register(JacksonJaxbXMLProvider.class)
                 .build();
 
-        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.json"));
+        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.xml"));
+//        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.json"));
+        final FormDataBodyPart startInterval = new FormDataBodyPart("startInterval", "2015-07-01T07:00:00Z");
+        final FormDataBodyPart endInterval = new FormDataBodyPart("endInterval", "2015-07-01T12:00:00Z");
+
 
         final FormDataMultiPart multipart = new FormDataMultiPart();
         multipart.bodyPart(filePart);
-        URI uri = URI.create("http://localhost:8080/spot-hero/rates/upload");
+        multipart.bodyPart(startInterval);
+        multipart.bodyPart(endInterval);
+
+        URI uri = URI.create("http://localhost:8080/spot-hero/api/rates/upload");
 
         final WebTarget target = client.target(uri);
         final Response response = target.request()

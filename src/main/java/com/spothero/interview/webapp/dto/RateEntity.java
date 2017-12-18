@@ -1,6 +1,7 @@
-package com.spothero.interview.webapp.entity;
+package com.spothero.interview.webapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.spothero.interview.webapp.dto.Rate;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;

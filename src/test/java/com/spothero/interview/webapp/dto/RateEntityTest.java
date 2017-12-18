@@ -1,4 +1,4 @@
-package com.spothero.interview.webapp.entity;
+package com.spothero.interview.webapp.dto;
 
 import org.junit.Test; 
 import org.junit.Before; 

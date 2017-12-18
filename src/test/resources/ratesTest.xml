@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rateEntity>
+    <rates>
+        <days>mon,tues,wed,thurs,fri</days>
+        <price>1500</price>
+        <times>0600-1800</times>
+    </rates>
+    <rates>
+        <days>sat,sun</days>
+        <price>2000</price>
+        <times>0600-2000</times>
+    </rates>
+</rateEntity>

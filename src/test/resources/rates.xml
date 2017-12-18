@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rateEntity>
+    <rates>
+        <days>mon,tues,thurs</days>
+        <price>1500</price>
+        <times>0900-2100</times>
+    </rates>
+    <rates>
+        <days>fri,sat,sun</days>
+        <price>2000</price>
+        <times>0900-2100</times>
+    </rates>
+    <rates>
+        <days>wed</days>
+        <price>1750</price>
+        <times>0600-1800</times>
+    </rates>
+    <rates>
+        <days>mon,wed,sat</days>
+        <price>1000</price>
+        <times>0100-0500</times>
+    </rates>
+    <rates>
+        <days>sun,tues</days>
+        <price>925</price>
+        <times>0100-0700</times>
+    </rates>
+</rateEntity>

@@ -1,5 +1,5 @@
 
-package com.spothero.interview.webapp.entity;
+package com.spothero.interview.webapp.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @XmlRootElement
 @JsonInclude(Include.NON_EMPTY)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Rate {
 
     private String days;
