@@ -1,13 +1,7 @@
 package com.spothero.interview.webapp.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.oracle.xmlns.internal.webservices.jaxws_databinding.JavaWsdlMappingType;
-import com.spothero.interview.webapp.dto.Rate;
 import com.spothero.interview.webapp.dto.RateEntity;
-import com.spothero.interview.webapp.pojo.Day;
-import com.spothero.interview.webapp.pojo.Interval;
-import com.spothero.interview.webapp.pojo.RateInterval;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -18,12 +12,8 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static com.spothero.interview.webapp.util.RateUtils.findRateforRequestedDateTime;
-import static com.spothero.interview.webapp.util.RateUtils.partitionRatesByDay;
 
 @Path("/rates")
 public class RateService {
@@ -51,8 +41,8 @@ public class RateService {
     @Produces({MediaType.TEXT_PLAIN})
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Path("/upload")
-    public String post(@FormDataParam("file") InputStream uploadedInputStream,
-                       @FormDataParam("file") FormDataContentDisposition fileDetails,
+    public String post( @FormDataParam("file") InputStream uploadedInputStream,
+//                       @FormDataParam("file") FormDataContentDisposition fileDetails,
                        @FormDataParam("startInterval") String startInterval,
                        @FormDataParam("endInterval") String endInterval) throws IOException {
 //                       @FormDataParam("timeZone") String timeZone
@@ -61,10 +51,10 @@ public class RateService {
         if (!uploadedInputStream.equals(null) && !startInterval.isEmpty() && !endInterval.isEmpty()) {
 
             RateEntity rateEntity = null;
-            if (fileDetails.getFileName().endsWith(".json")) {
+//            if (fileDetails.getFileName().endsWith(".json")) {
                 ObjectMapper mapper = new ObjectMapper();
                 rateEntity = mapper.readValue(uploadedInputStream, RateEntity.class);
-            }
+//            }
             //Given instructions there is not a need for multipart xml file upload
 //            else if (fileDetails.getFileName().endsWith(".xml")) {
 //                XmlMapper mapper = new XmlMapper();

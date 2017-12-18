@@ -1,26 +1,27 @@
 
 <enunciate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://enunciate.webcohesion.com/schemas/enunciate-2.0.0-M.4.xsd">
 
-    <title>If You Wanna Be Cool API</title>
-    <description package="com.spothero.interview.webapp"/>
-    <copyright>SpotHerop</copyright>
+    <title>SpotHero Rate API docs</title>
+    <description package="spothero.interview.webapp"/>
+    <copyright>SpotHero</copyright>
 
-    <application root="http://www.ifyouwannabecool.com/api"/>
+    <application root="http://localhost:8080/spot-hero/api"/>
 
-    <namespaces>
-        <namespace id="api" uri="http://api.ifyouwannabecool.com/"/>
-        <namespace id="link" uri="http://api.ifyouwannabecool.com/link"/>
-        <namespace id="persona" uri="http://api.ifyouwannabecool.com/persona"/>
-    </namespaces>
+    <api-classes>
+        <!--<exclude pattern="com.mycompany.hide.**"/>-->
+        <include pattern="com.spothero.**"/>
+        <!--<exclude pattern="com.mycompany.api.MyClass"/>-->
+    </api-classes>
 
-    <modules>
-        <docs>
-            <download file="LICENSE" name="Apache II" description="The license governing this API" showLink="true"/>
-        </docs>
-        <java-xml-client>
-            <package-conversions>
-                <convert from="com.ifyouwannabecool" to="com.ifyouwannabecool.client"/>
-            </package-conversions>
-        </java-xml-client>
-    </modules>
+    <!--<modules>-->
+        <!--<docs>-->
+            <!--<download file="LICENSE" name="Apache II" description="The license governing this API" showLink="true"/>-->
+        <!--</docs>-->
+        <!--<java-xml-client>-->
+            <!--<package-conversions>-->
+                <!--<convert from="com.ifyouwannabecool" to="com.ifyouwannabecool.client"/>-->
+            <!--</package-conversions>-->
+        <!--</java-xml-client>-->
+    <!--</modules>-->
 
+</enunciate>

@@ -1,8 +1,6 @@
 package com.spothero.interview.webapp;
 
 
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.jaxrs.xml.JacksonJaxbXMLProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
@@ -36,7 +34,6 @@ public class RateApplication extends Application{
             final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview.webapp", "org.glassfish.jersey.media.multipart")
             .register(MultiPartFeature.class)
             .register(JacksonJsonProvider.class);
-//            .register(JacksonJaxbXMLProvider.class);
 
             // create and start a new instance of grizzly http server
             // exposing the Jersey application at BASE_URI

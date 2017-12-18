@@ -15,6 +15,10 @@
         <servlet4.version>4.0.0</servlet4.version>
         <metrics.version>3.2.3</metrics.version>
         <junit.version>4.12</junit.version>
+        <enunciate.version>2.10.1</enunciate.version>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin-version>2.20.1</maven-surefire-plugin-version>
+        <exec-maven-plugin-version>1.6.0</exec-maven-plugin-version>
     </properties>
 
     <dependencies>
@@ -63,11 +67,19 @@
             <artifactId>jackson-jaxrs-xml-provider</artifactId>
             <version>2.9.3</version>
         </dependency>
-<!--        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.9.3</version>
-        </dependency>-->
+
+        <!--Documentation dependencies-->
+        <dependency>
+            <groupId>com.webcohesion.enunciate</groupId>
+            <artifactId>enunciate-core-annotations</artifactId>
+            <version>${enunciate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.webcohesion.enunciate</groupId>
+            <artifactId>enunciate-rt-util</artifactId>
+            <version>${enunciate.version}</version>
+        </dependency>
 
         <!--Test Dependencies-->
         <dependency>
@@ -86,10 +98,28 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.webcohesion.enunciate</groupId>
+                <artifactId>enunciate-maven-plugin</artifactId>
+                <version>${enunciate.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>docs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- the directory where to put the docs -->
+                    <docsDir>${project.build.directory}/docs</docsDir>
+                    <configFile>enunciate.xml</configFile>
+                </configuration>
+            </plugin>
             <!-- Run the application using "mvn exec:java" to deploy to Grizzly Servlet-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin-version}</version>
                 <configuration>
                     <mainClass>com.spothero.interview.webapp.RateApplication</mainClass>
                 </configuration>
@@ -97,6 +127,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -105,8 +136,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin-version}</version>
                 <configuration>
-                    ....
                     <systemProperties>
                         <property>
                             <name>jersey.config.test.container.port</name>
@@ -114,6 +145,19 @@
                         </property>
                     </systemProperties>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
