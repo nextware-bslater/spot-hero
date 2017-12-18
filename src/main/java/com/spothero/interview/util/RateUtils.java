@@ -1,10 +1,10 @@
-package com.spothero.interview.webapp.util;
+package com.spothero.interview.util;
 
-import com.spothero.interview.webapp.dto.Rate;
-import com.spothero.interview.webapp.dto.RateEntity;
-import com.spothero.interview.webapp.pojo.Day;
-import com.spothero.interview.webapp.pojo.Interval;
-import com.spothero.interview.webapp.pojo.RateInterval;
+import com.spothero.interview.dto.Rate;
+import com.spothero.interview.dto.RateEntity;
+import com.spothero.interview.pojo.Day;
+import com.spothero.interview.pojo.Interval;
+import com.spothero.interview.pojo.RateInterval;
 
 import java.util.*;
 

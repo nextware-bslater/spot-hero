@@ -1,5 +1,5 @@
 
-package com.spothero.interview.webapp.dto;
+package com.spothero.interview.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

@@ -1,4 +1,4 @@
-package com.spothero.interview.webapp.pojo;
+package com.spothero.interview.pojo;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

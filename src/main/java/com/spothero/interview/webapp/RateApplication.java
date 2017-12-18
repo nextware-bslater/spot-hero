@@ -31,7 +31,7 @@ public class RateApplication extends Application{
 
             // create a resource config that scans for JAX-RS resources and providers
             // in com.spothero.interview.webapp package
-            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview.webapp", "org.glassfish.jersey.media.multipart")
+            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview", "org.glassfish.jersey.media.multipart")
             .register(MultiPartFeature.class)
             .register(JacksonJsonProvider.class);
 

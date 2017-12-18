@@ -1,8 +1,7 @@
-package com.spothero.interview.webapp.service;
+package com.spothero.interview.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spothero.interview.webapp.dto.RateEntity;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import com.spothero.interview.dto.RateEntity;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
@@ -13,7 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.spothero.interview.webapp.util.RateUtils.findRateforRequestedDateTime;
+import static com.spothero.interview.util.RateUtils.findRateforRequestedDateTime;
 
 @Path("/rates")
 public class RateService {
