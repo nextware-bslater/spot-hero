@@ -13,47 +13,79 @@ public class Interval {
     private String[] times;
 
     /**
-     *
-     * @param times
+     *Constructor builds interval that contains data on which the requested interval will be tested against
+     * @param times string of time intervals
      */
     public Interval(String times) {
         buildInterval(times);
     }
 
+    /**
+     * Constructor builds interval that will later have rate calculated
+     * @param startInterval isoformat string which corresponds to the start an {@link Interval}
+     * @param endInterval isoformat string which corresponds to the end an {@link Interval}
+     */
     public Interval(String startInterval, String endInterval){
         buildInterval(startInterval, endInterval);
     }
 
+    /**
+     * Constructor allows for an empty instance of {@link Interval} to be created
+     */
     public Interval() {
     }
 
+    /**
+     * Method gets the start LocalTime of a given interval
+     * @return start LocalTime of given interval
+     */
     public LocalTime getStart() {
         return start;
     }
 
+    /**
+     *  Method sets the start LocalTime of a given interval
+     * @param start LocalTime of given interval
+     */
     public void setStart(final LocalTime start) {
         this.start = start;
     }
 
+    /**
+     * Method sets the end LocalTime of a given interval
+     * @return end LocalTime of given interval
+     */
     public LocalTime getEnd() {
         return end;
     }
 
+    /**
+     *  Method sets the end LocalTime of a given interval
+     * @param end LocalTime of given interval
+     */
     public void setEnd(final LocalTime end) {
         this.end = end;
     }
 
+    /**
+     * Method gets an array of times, where index 0 is start DateTime and index 1 is end DateTime
+     * @return array of values used to generate this interval
+     */
     public String[] getTimes() {
         return times;
     }
 
+    /**
+     * Method sets an array of times, which represent the initial start and end times
+     * @param times array container with DateTime strings in isoformat or time strings in HH:mm format
+     */
     public void setTimes(final String[] times) {
         this.times = times;
     }
 
     /**
      * parseTimeHHmm is a helper for parsing time string formatted in HHmm
-     * @param time
+     * @param time for which a conversion input string to HH:mm format is necessary
      * @return LocalTime formatted HH:mm
      * @throws Exception
      */
@@ -67,7 +99,7 @@ public class Interval {
 
     /**
      * parseTimeISO is a helper for parsing a date string into an iso time
-     * @param time
+     * @param time for which a conversion input string to isoformat is necessary
      * @return LocalTime of data string
      * @throws Exception
      */
@@ -79,6 +111,21 @@ public class Interval {
         return localTime;
     }
 
+    /**
+     * Method tests whether the this interval encapsulates the param interval, i.e. the absolute value of this interval's bounds are greater than the absolute value of the param Interval's bounds
+     * @param interval time period that is to be tested
+     * @return boolean representing that param interval is a subset of this.Interval, or it is not
+     */
+    public boolean encapsulates(Interval interval){
+        boolean startCondition = this.start.isBefore(interval.getStart());
+        boolean endCondition = this.end.isAfter(interval.getEnd());
+        return startCondition && endCondition;
+    }
+
+    /**
+     * Methods validates and populates the {@link Interval} object against which the client typically tests their input Interval
+     * @param times string of times in "HHmm-HHmm" format, representing a realizable interval of time
+     */
     public void buildInterval(String times) {
 
         try {
@@ -103,7 +150,12 @@ public class Interval {
         }
     }
 
-    private void buildInterval(final String startInterval, final String endInterval) {
+    /**
+     * Methods validates and populates the {@link Interval} object which typically represents client input interval
+     * @param startInterval isoformat string which corresponds to the start an {@link Interval}
+     * @param endInterval isoformat string which corresponds to the end an {@link Interval}
+     */
+    public void buildInterval(final String startInterval, final String endInterval) {
         try {
             setStart(parseTimeISO(startInterval));
             setEnd(parseTimeISO(endInterval));
@@ -118,11 +170,6 @@ public class Interval {
         }
     }
 
-    public boolean encapsulates(Interval interval){
-        boolean startCondition = this.start.isBefore(interval.getStart());
-        boolean endCondition = this.end.isAfter(interval.getEnd());
-        return startCondition && endCondition;
-    }
 
 
 

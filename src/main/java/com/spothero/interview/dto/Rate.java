@@ -1,11 +1,10 @@
 
 package com.spothero.interview.dto;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *Rate class represents an Object that relates a series of days with a time interval and a price for parking given preceding day and time interval

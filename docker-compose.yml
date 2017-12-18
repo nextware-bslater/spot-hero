@@ -1,0 +1,21 @@
+version: '3'
+volumes:
+  target-vol:
+    driver: local
+services:
+  service:
+    image: spot-hero/rate:1
+    ports:
+      - 8080:8080
+    volumes:
+      - target-vol:/opt/app/target/
+    environment:
+      HOST: '0.0.0.0'
+  docs:
+    image: library/nginx
+    depends_on:
+      - service
+    ports:
+      - 12346:80
+    volumes:
+      - target-vol:/usr/share/nginx/html/

@@ -1,6 +1,7 @@
 package com.spothero.interview.webapp;
 
 
+import com.codahale.metrics.MetricRegistry;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
@@ -19,6 +20,8 @@ public class RateApplication extends Application{
     // Base URI the Grizzly HTTP server will listen on
 
     public static final String BASE_URI = "http://" + System.getenv("HOST") +":8080/spot-hero/api/";
+    public static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
+
 
     /**
      * RateApplication method.

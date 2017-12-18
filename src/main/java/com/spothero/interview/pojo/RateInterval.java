@@ -2,7 +2,7 @@ package com.spothero.interview.pojo;
 
 
 /**
- * RateInterval represents an expansion of the {@link com.spothero.interview.webapp.dto.Rate} object based on days on which rates occur
+ * RateInterval represents an expansion of the {@link com.spothero.interview.dto.Rate} object based on days on which rates occur
  */
 public class RateInterval {
 

@@ -8,8 +8,16 @@ import com.spothero.interview.pojo.RateInterval;
 
 import java.util.*;
 
+/**
+ * Helper class to construct objects associated with the process of computing parking rates
+ */
 public class RateUtils {
 
+    /**
+     *Method is a utility to populate a map that contains a key of day and a list of time intervals as its value
+     * @param originalRate rate that requires expansion
+     * @param dayMap map to which expanded rates should be placed
+     */
     public static void partitionRatesByDay(Rate originalRate, Map<String, List<RateInterval>> dayMap){
         if(originalRate == null){
             //TODO warn in logger
@@ -26,6 +34,11 @@ public class RateUtils {
         }
     }
 
+    /**
+     *Method performs a cartesian multiplation of {@link Rate}'s days and interval
+     *  * @param originalRate the original {@link Rate} that is to be multiplied
+     * @return cartesian product or a {@link Rate}'s days and interval
+     */
     public static List<RateInterval> buildRateIntervalListFromOrignalRate(Rate originalRate){
 
         List<RateInterval> rateIntervals = new ArrayList<>();
@@ -36,6 +49,13 @@ public class RateUtils {
         return rateIntervals;
     }
 
+    /**
+     *Method takes user requested date range input and tests it against the set of rates the user also uploaded
+     * @param rateEntity represents list of {@link Rate} objects that user input is to be tested against
+     * @param startInterval isoformat string which corresponds to the start an {@link Interval}
+     * @param endInterval isoformat string which corresponds to the end an {@link Interval}
+     * @return rate or lack there of that a client should expect to pay for parking given a desired time interval and a user defined constraint set
+     */
     public static String findRateforRequestedDateTime(RateEntity rateEntity, String startInterval, String endInterval)
     {
         Map<String, List<RateInterval>> dayMap = new HashMap<>();
