@@ -70,8 +70,8 @@ public class RateService {
         //TODO add support for client passing time zone
         if (!uploadedInputStream.equals(null) && !startInterval.isEmpty() && !endInterval.isEmpty()) {
 
-            RateEntity rateEntity = null;
-                ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper();
+            RateEntity rateEntity = mapper.readValue(uploadedInputStream, RateEntity.class);
 
             return findRateforRequestedDateTime(rateEntity, startInterval, endInterval);
 
