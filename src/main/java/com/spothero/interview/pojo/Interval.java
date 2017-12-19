@@ -2,6 +2,7 @@ package com.spothero.interview.pojo;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 /**
  * Class represents a finite interval of time. It consists of a start and end time, as well as the string from which start and end were computed
@@ -170,7 +171,24 @@ public class Interval {
         }
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        final Interval interval = (Interval) o;
 
+        if (getStart() != null ? !getStart().equals(interval.getStart()) : interval.getStart() != null) return false;
+        if (getEnd() != null ? !getEnd().equals(interval.getEnd()) : interval.getEnd() != null) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(getTimes(), interval.getTimes());
+    }
 
+    @Override
+    public int hashCode() {
+        int result = getStart() != null ? getStart().hashCode() : 0;
+        result = 31 * result + (getEnd() != null ? getEnd().hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(getTimes());
+        return result;
+    }
 }

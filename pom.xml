@@ -19,6 +19,8 @@
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-surefire-plugin-version>2.20.1</maven-surefire-plugin-version>
         <exec-maven-plugin-version>1.6.0</exec-maven-plugin-version>
+        <maven-javadocs-plugin-version>3.0.0</maven-javadocs-plugin-version>
+        <maven-failsafe-plugin.version>2.20.1</maven-failsafe-plugin.version>
     </properties>
 
     <dependencies>
@@ -150,12 +152,15 @@
                             <value>8080</value>
                         </property>
                     </systemProperties>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-javadocs-plugin-version}</version>
                 <configuration>
                     <excludePackageNames>com.spothero.interview.webapp,com.spothero.interview.service</excludePackageNames>
                 </configuration>
@@ -164,6 +169,30 @@
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>jersey.config.test.container.port</name>
+                            <value>8080</value>
+                        </property>
+                    </systemProperties>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>verify</goal>
+                            <goal>integration-test</goal>
                         </goals>
                     </execution>
                 </executions>

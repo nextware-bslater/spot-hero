@@ -23,7 +23,15 @@ public class Day {
     public Day(String startInterval, String endInterval) {
         setStartInterval(startInterval);
         setEndInterval(endInterval);
-        validateDay(startInterval,endInterval);
+        try {
+            validateDay(startInterval,endInterval);
+        } catch (Exception e) {
+            //TODO do something
+        }
+    }
+
+    public Day(){
+
     }
 
     /**
@@ -108,21 +116,18 @@ public class Day {
      * @param startInterval isoformat string which corresponds to the start an {@link Interval}
      * @param endInterval isoformat string which corresponds to the end an {@link Interval}
      */
-    private void validateDay(final String startInterval, final String endInterval) {
+    public boolean validateDay(String startInterval, String endInterval) throws Exception{
 
-        try {
             LocalDate startDate = parseTimeISO(startInterval);
             LocalDate endDate = parseTimeISO(endInterval);
             if(endDate.equals(startDate)){
                 Interval testInterval = new Interval(startInterval, endInterval);
                 setInterval(testInterval);
                 setDay(startDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.US).toLowerCase());
+                return true;
             }else{
                 throw new Exception("Input dates must be on the same day");
             }
-
-        } catch (Exception e) {
-
-        }
     }
+
 }
