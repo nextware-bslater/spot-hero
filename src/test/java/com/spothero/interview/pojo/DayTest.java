@@ -6,13 +6,13 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.spothero.interview.pojo.Day.parseTimeISO;
+import static com.spothero.interview.pojo.Day.parseDateISO;
 import static junit.framework.TestCase.fail;
 
 /**
  * Day Tester.
  *
- * @author <Authors name>
+ * @author Brian Slater
  * @version 1.0
  * @since <pre>Dec 19, 2017</pre>
  */
@@ -20,6 +20,7 @@ public class DayTest {
 
 
     //TODO add validation for day string value
+
     /**
      * Method: getDay() and setDay()
      */
@@ -46,7 +47,7 @@ public class DayTest {
 
 
     /**
-     * Method: getStartInterval()
+     * Method: getStartInterval() and setStartInterval()
      */
     @Test
     public void testSetThenGetStartInterval() throws Exception {
@@ -58,7 +59,7 @@ public class DayTest {
 
 
     /**
-     * Method: getEndInterval()
+     * Method: getEndInterval() and setEndInterval()
      */
     @Test
     public void testSetThenGetEndInterval() throws Exception {
@@ -69,20 +70,30 @@ public class DayTest {
     }
 
     /**
-     * Method: parseTimeISO(String date)
+     * Method: parseDateISO(String date)
      */
     @Test
-    public void testParseTimeISO() throws Exception {
+    public void testParseDateISO() throws Exception {
         String dateString = "2015-07-01T07:00:00Z";
-        LocalDate actualDate = parseTimeISO(dateString);
+        LocalDate actualDate = parseDateISO(dateString);
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-        LocalDate expectedDate = LocalDate.parse(dateString,formatter);
+        LocalDate expectedDate = LocalDate.parse(dateString, formatter);
         Assert.assertEquals("You must have changed the format homie!", expectedDate, actualDate);
+    }
+
+    /**
+     * Method: parseDateISO(String time)
+     */
+    @Test(expected = Exception.class)
+    public void testParseDateISOException() throws Exception {
+        String dateString = "2015-07-01T07:0000000:00Z";
+        Day.parseDateISO(dateString);
     }
 
 
     /**
      * Method: validateDay(final String startInterval, final String endInterval)
+     * Tests behavior under expected conditions
      */
     @Test
     public void testValidateDayEqualStartEndDay() throws Exception {
@@ -95,6 +106,10 @@ public class DayTest {
 
     }
 
+    /**
+     * Method: validateDay(final String startInterval, final String endInterval)
+     * Tests behavior when when and interval does not fall in the same day
+     */
     @Test
     public void testValidateDayStartEndDayNotEqual() throws Exception {
         Day day = new Day();

@@ -98,15 +98,18 @@ public class Day {
         this.endInterval = endInterval;
     }
     /**
-     * parseTimeISO is a helper for parsing a date string into an iso date
+     * parseDateISO is a helper for parsing a date string into an iso date
      * @param date
      * @return LocalDate of data string
      * @throws Exception
      */
-    public static LocalDate parseTimeISO(String date) throws Exception {
+    public static LocalDate parseDateISO(String date) throws Exception {
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalDate localDate = LocalDate.parse(date,formatter);
+        if(localDate == null){
+            throw new Exception("Invalid datestring");
+        }
 
         return localDate;
     }
@@ -118,8 +121,8 @@ public class Day {
      */
     public boolean validateDay(String startInterval, String endInterval) throws Exception{
 
-            LocalDate startDate = parseTimeISO(startInterval);
-            LocalDate endDate = parseTimeISO(endInterval);
+            LocalDate startDate = parseDateISO(startInterval);
+            LocalDate endDate = parseDateISO(endInterval);
             if(endDate.equals(startDate)){
                 Interval testInterval = new Interval(startInterval, endInterval);
                 setInterval(testInterval);

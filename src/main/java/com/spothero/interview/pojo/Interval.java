@@ -18,7 +18,11 @@ public class Interval {
      * @param times string of time intervals
      */
     public Interval(String times) {
-        buildInterval(times);
+        try {
+            buildInterval(times);
+        } catch (Exception e) {
+
+        }
     }
 
     /**
@@ -27,7 +31,11 @@ public class Interval {
      * @param endInterval isoformat string which corresponds to the end an {@link Interval}
      */
     public Interval(String startInterval, String endInterval){
-        buildInterval(startInterval, endInterval);
+        try {
+            buildInterval(startInterval, endInterval);
+        } catch (Exception e) {
+
+        }
     }
 
     /**
@@ -94,12 +102,15 @@ public class Interval {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
         LocalTime localTime = LocalTime.parse(time, formatter);
+        if(localTime == null){
+            throw new Exception("Invalid time string passed");
+        }
 
         return localTime;
     }
 
     /**
-     * parseTimeISO is a helper for parsing a date string into an iso time
+     * parseDateISO is a helper for parsing a date string into an iso time
      * @param time for which a conversion input string to isoformat is necessary
      * @return LocalTime of data string
      * @throws Exception
@@ -108,6 +119,9 @@ public class Interval {
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalTime localTime = LocalTime.parse(time, formatter);
+        if(localTime == null){
+            throw new Exception("Invalid date string passed");
+        }
 
         return localTime;
     }
@@ -127,28 +141,19 @@ public class Interval {
      * Methods validates and populates the {@link Interval} object against which the client typically tests their input Interval
      * @param times string of times in "HHmm-HHmm" format, representing a realizable interval of time
      */
-    public void buildInterval(String times) {
+    public void buildInterval(String times) throws Exception {
 
-        try {
             if(!times.contains("-")) {
-                throw new Exception("Times passed in JSON file must be expressed as 2 times formatted HMmm separated by a dash");
+                throw new Exception("Times passed must be expressed as 2 times formatted HMmm separated by a dash");
             }
             String[] timesArray = times.split("-");
             setTimes(timesArray);
-            if(timesArray[0].length() != 4){
-                throw new Exception("Times passed in JSON file must be expressed in 24hr format with 4 digits with pattern HHmm");
-            }
             setStart(parseTimeHHmm(timesArray[0]));
-            if(timesArray[1].length() != 4){
-                throw new Exception("Times passed in JSON file must be expressed in 24hr format with 4 digits with pattern HHmm");
-            }
             setEnd(parseTimeHHmm(timesArray[1]));
             if(start.isAfter(end)){
                 throw new Exception("Start time must be less than end time");
             }
-        } catch (Exception e) {
-//            TODO add logger
-        }
+
     }
 
     /**
@@ -156,8 +161,7 @@ public class Interval {
      * @param startInterval isoformat string which corresponds to the start an {@link Interval}
      * @param endInterval isoformat string which corresponds to the end an {@link Interval}
      */
-    public void buildInterval(final String startInterval, final String endInterval) {
-        try {
+    public void buildInterval(final String startInterval, final String endInterval) throws Exception {
             setStart(parseTimeISO(startInterval));
             setEnd(parseTimeISO(endInterval));
             String[] times = {startInterval, endInterval};
@@ -166,9 +170,6 @@ public class Interval {
                 throw new Exception("Start time must be less than end time");
             }
 
-        } catch (Exception e) {
-//            TODO add logger
-        }
     }
 
     @Override
