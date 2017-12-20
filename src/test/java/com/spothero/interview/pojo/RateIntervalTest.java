@@ -17,8 +17,7 @@ public class RateIntervalTest {
 
     @Before
     public void before() throws Exception {
-        Interval interval = new Interval("1000-1100");
-        this.rateInterval = new RateInterval(interval, 1000);
+        this.rateInterval = new RateInterval("1000-1100", 1000);
     }
 
     /**

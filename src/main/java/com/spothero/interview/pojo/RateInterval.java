@@ -11,11 +11,11 @@ public class RateInterval {
 
     /**
      * Constructor builds a fully specified rate to time interval relationship
-     * @param interval interval of time during which a rate is actice
+     * @param times from which to build interval
      * @param rate rate to applied for a given interval of time
      */
-    public RateInterval(Interval interval,int rate) {
-        this.interval = interval;
+    public RateInterval(String times ,int rate) {
+        this.interval = new Interval(times);
         this.rate = rate;
     }
 
@@ -33,5 +33,31 @@ public class RateInterval {
      */
     public int getRate() {
         return rate;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final RateInterval that = (RateInterval) o;
+
+        if (getRate() != that.getRate()) return false;
+        return getInterval() != null ? getInterval().equals(that.getInterval()) : that.getInterval() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getInterval() != null ? getInterval().hashCode() : 0;
+        result = 31 * result + getRate();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "RateInterval{" +
+                "interval=" + interval +
+                ", rate=" + rate +
+                '}';
     }
 }

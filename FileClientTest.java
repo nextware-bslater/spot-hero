@@ -24,15 +24,14 @@ public class FileClientTest {
 
     public static void main(String[] args) throws IOException {
 
+
+
         final Client client = ClientBuilder.newBuilder()
                 .register(MultiPartFeature.class)
-//                .register(JacksonJsonProvider.class)
-//                .register(JacksonJaxbXMLProvider.class)
                 .build();
 
-        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.xml"));
-//        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.json"));
-        final FormDataBodyPart startInterval = new FormDataBodyPart("startInterval", "2015-07-01T07:00:00Z");
+//        final FileDataBodyPart filePart = new FileDataBodyPart("file", new File("/home/devii_b/fun_code/spot-hero/src/test/resources/rates.xml"));
+        final final FormDataBodyPart startInterval = new FormDataBodyPart("startInterval", "2015-07-01T07:00:00Z");
         final FormDataBodyPart endInterval = new FormDataBodyPart("endInterval", "2015-07-01T12:00:00Z");
 
 

@@ -1,12 +1,12 @@
 package com.spothero.interview.util;
 
 import com.spothero.interview.dto.Rate;
-import com.spothero.interview.dto.RateEntity;
-import com.spothero.interview.pojo.Day;
-import com.spothero.interview.pojo.Interval;
 import com.spothero.interview.pojo.RateInterval;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class to construct objects associated with the process of computing parking rates
@@ -18,7 +18,7 @@ public class RateUtils {
      * @param originalRate rate that requires expansion
      * @param dayMap map to which expanded rates should be placed
      */
-    public static void partitionRatesByDay(Rate originalRate, Map<String, List<RateInterval>> dayMap){
+    public static Map<String, List<RateInterval>> partitionRatesByDay(Rate originalRate, Map<String, List<RateInterval>> dayMap) throws Exception{
         if(originalRate == null){
             //TODO warn in logger
 //            throw new Exception( "Days must be specified for to cre")
@@ -26,62 +26,20 @@ public class RateUtils {
 
         List<String> days =  Arrays.asList(originalRate.getDays().split(","));
         for(String day : days){
+            if(day.length() < 3){
+                throw new Exception("Days must be of the form mon,tues,wed,thurs,fri,sat,sun");
+            }
+            day = day.substring(0,3);
             if(dayMap.containsKey(day)){
-                dayMap.get(day).addAll(buildRateIntervalListFromOrignalRate(originalRate));
+                dayMap.get(day).add(new RateInterval(originalRate.getTimes(), originalRate.getPrice()));
             }else{
-                dayMap.put(day, buildRateIntervalListFromOrignalRate(originalRate));
+                List<RateInterval> rateIntervals = new ArrayList<>();
+                rateIntervals.add(new RateInterval(originalRate.getTimes(), originalRate.getPrice()));
+                dayMap.put(day, rateIntervals);
             }
         }
-    }
 
-    /**
-     *Method performs a cartesian multiplation of {@link Rate}'s days and interval
-     *  * @param originalRate the original {@link Rate} that is to be multiplied
-     * @return cartesian product or a {@link Rate}'s days and interval
-     */
-    public static List<RateInterval> buildRateIntervalListFromOrignalRate(Rate originalRate){
-
-        List<RateInterval> rateIntervals = new ArrayList<>();
-        Interval interval = new Interval(originalRate.getTimes());
-        RateInterval rateInterval = new RateInterval(interval, originalRate.getPrice());
-        rateIntervals.add(rateInterval);
-
-        return rateIntervals;
-    }
-
-    /**
-     *Method takes user requested date range input and tests it against the set of rates the user also uploaded
-     * @param rateEntity represents list of {@link Rate} objects that user input is to be tested against
-     * @param startInterval isoformat string which corresponds to the start an {@link Interval}
-     * @param endInterval isoformat string which corresponds to the end an {@link Interval}
-     * @return rate or lack there of that a client should expect to pay for parking given a desired time interval and a user defined constraint set
-     */
-    public static String findRateforRequestedDateTime(RateEntity rateEntity, String startInterval, String endInterval)
-    {
-        Map<String, List<RateInterval>> dayMap = new HashMap<>();
-
-        for (Rate rate : rateEntity.getRates()) {
-            partitionRatesByDay(rate, dayMap);
-        }
-
-        //Create interval from start and end time
-        Day requestDay = new Day(startInterval, endInterval);
-        Interval requestInterval = requestDay.getInterval();
-
-        List<RateInterval> rateIntervals;
-        if(dayMap.containsKey(requestDay.getDay())) {
-            rateIntervals = dayMap.get(requestDay.getDay());
-            for(RateInterval rateInterval : rateIntervals){
-                Interval checkInterval = rateInterval.getInterval();
-                boolean checkIntervalEncapsulatesRequestInterval = checkInterval.encapsulates(requestInterval);
-                if(checkIntervalEncapsulatesRequestInterval){
-                    return new Integer(rateInterval.getRate()).toString();
-                }
-            }
-            return "unavailable";
-        }else{
-            return "unavailable";
-        }
+        return dayMap;
     }
 
 
