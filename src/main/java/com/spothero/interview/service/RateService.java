@@ -1,6 +1,7 @@
 package com.spothero.interview.service;
 
 import com.codahale.metrics.Meter;
+import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spothero.interview.dto.Rate;
 import com.spothero.interview.dto.RateEntity;
@@ -11,17 +12,15 @@ import com.spothero.interview.util.RateUtils;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.codahale.metrics.MetricRegistry;
 
-import static com.spothero.interview.webapp.RateApplication.METRIC_REGISTRY;
+import static com.codahale.metrics.MetricRegistry.name;
 
 /**
  * Resource allows users to easily calculate parking rates given a desired time interval and a set of constraints
@@ -29,13 +28,15 @@ import static com.spothero.interview.webapp.RateApplication.METRIC_REGISTRY;
 @Path("/rates")
 public class RateService {
 
-    @Context
-    UriInfo uriInfo;
-    @Context
-    Request request;
 
+    private static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
 //    private final MetricRegistry metrics = new MetricRegistry();
-    private final Meter requests = METRIC_REGISTRY.meter("findRateforRequestedDateTime");
+    private final Meter rateRequests = METRIC_REGISTRY.meter("rate-request");
+    private final Timer rateRequestsTimer = METRIC_REGISTRY.timer(name(RateService.class, "rate-request-timer"));
+
+    private final Meter rateFileRequests = METRIC_REGISTRY.meter("rate-w-file-request");
+    private final Timer rateFileRequestsTimer = METRIC_REGISTRY.timer(name(RateService.class, "rate-w-file-request-timer"));
+
 
     /**
      * Endpoint allows for users to send a date range and a JSON or XML object from which the date range provided will calculate a rate for parking
@@ -50,11 +51,36 @@ public class RateService {
     public String post(RateEntity rates,
                        @QueryParam("startInterval") String startInterval,
                        @QueryParam("endInterval") String endInterval) {
-
+        rateRequests.mark();
+        final Timer.Context context = rateRequestsTimer.time();
         if (rates.getRates().size() != 0 && !startInterval.isEmpty() && !endInterval.isEmpty()) {
+            context.stop();
             return findRateForRequestedDateTime(rates, startInterval, endInterval);
         }
+        context.stop();
         return "Missing FormData necessary to form a valid request";
+    }
+
+    /**
+     * Endpoint reports meter metrics for /spot-hero/api/rates endpoint that allows for json/xml request bodies
+     * @return {@link Meter} statistics for endpoint
+     */
+    @GET
+    @Path("/metrics/request/meter")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Meter getRequestsMeter() {
+        return rateRequests;
+    }
+
+    /**
+     * Endpoint reports timer metrics for /spot-hero/api/rates endpoint that allows for json/xml request bodies
+     * @return {@link Timer} statistics for endpoint
+     */
+    @GET
+    @Path("/metrics/request/timer")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Timer getRequestsTimer() {
+        return rateRequestsTimer;
     }
 
     /**
@@ -66,24 +92,50 @@ public class RateService {
      * @throws IOException
      */
     @POST
+    @Path("/upload")
     @Produces({MediaType.TEXT_PLAIN})
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     public String post( @FormDataParam("file") InputStream uploadedInputStream,
                        @QueryParam("startInterval") String startInterval,
                        @QueryParam("endInterval") String endInterval) throws IOException {
-
+        rateFileRequests.mark();
+        final Timer.Context context = rateFileRequestsTimer.time();
         //TODO add support for client passing time zone
         if (!uploadedInputStream.equals(null) && !startInterval.isEmpty() && !endInterval.isEmpty()) {
 
             ObjectMapper mapper = new ObjectMapper();
             RateEntity rateEntity = mapper.readValue(uploadedInputStream, RateEntity.class);
-
+            context.stop();
             return findRateForRequestedDateTime(rateEntity, startInterval, endInterval);
 
         }
+        context.stop();
         return "Missing FormData necessary to form a valid request";
-
     }
+
+    /**
+     * Endpoint reports meter metrics for /spot-hero/api/rates endpoint that allows file upload
+     * @return {@link Meter} statistics for endpoint
+     */
+    @GET
+    @Path("/metrics/request-file/meter")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Meter getRequestsFileMeter() {
+        return rateRequests;
+    }
+
+    /**
+     * Endpoint reports timer metrics for /spot-hero/api/rates endpoint that allows file upload
+     * @return {@link Timer} statistics for endpoint
+     */
+    @GET
+    @Path("/metrics/request-file/timer")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Timer getRequestsFileTimer() {
+        return rateRequestsTimer;
+    }
+
+
 
     /**
      *Method takes user requested date range input and tests it against the set of rates the user also uploaded

@@ -1,5 +1,6 @@
 package com.spothero.interview.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,6 +11,7 @@ import java.util.List;
  */
 @XmlRootElement()
 @JsonRootName(value = "rates")
+@JsonInclude
 public class RateEntity {
 
     private List<Rate> rates;

@@ -1,5 +1,6 @@
 package com.spothero.interview.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,6 +17,7 @@ import static junit.framework.TestCase.fail;
  * @version 1.0
  * @since <pre>Dec 19, 2017</pre>
  */
+
 public class DayTest {
 
 

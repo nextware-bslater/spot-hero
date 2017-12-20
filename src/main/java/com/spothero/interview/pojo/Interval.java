@@ -1,5 +1,8 @@
 package com.spothero.interview.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -7,6 +10,8 @@ import java.util.Arrays;
 /**
  * Class represents a finite interval of time. It consists of a start and end time, as well as the string from which start and end were computed
  */
+@JsonInclude
+@XmlRootElement
 public class Interval {
 
     private LocalTime start;

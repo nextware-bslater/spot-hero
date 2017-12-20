@@ -2,6 +2,8 @@ package com.spothero.interview.webapp;
 
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlets.AdminServlet;
+import com.codahale.metrics.servlets.MetricsServlet;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJsonProvider;
@@ -15,13 +17,8 @@ import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ApplicationPath("/")
-public class RateApplication extends Application{
-    // Base URI the Grizzly HTTP server will listen on
-
+public class RateApplication extends Application {
     public static final String BASE_URI = "http://" + System.getenv("HOST") +":8080/spot-hero/api/";
-    public static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
-
 
     /**
      * RateApplication method.
@@ -34,7 +31,7 @@ public class RateApplication extends Application{
 
             // create a resource config that scans for JAX-RS resources and providers
             // in com.spothero.interview.webapp package
-            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview", "org.glassfish.jersey.media.multipart")
+            final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview", "org.glassfish.jersey.media.multipart", "com.codahale.metrics.servlets")
             .register(MultiPartFeature.class)
             .register(JacksonJsonProvider.class);
 

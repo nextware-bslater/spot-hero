@@ -1,9 +1,15 @@
 package com.spothero.interview.pojo;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * RateInterval represents an expansion of the {@link com.spothero.interview.dto.Rate} object based on days on which rates occur
  */
+@JsonInclude
+@XmlRootElement
 public class RateInterval {
 
     private Interval interval;

@@ -74,7 +74,7 @@ public class RateServiceIT extends JerseyTest {
         FormDataMultiPart multipart = new FormDataMultiPart();
         multipart.bodyPart(filePart);
 
-        Response response = client.target(this.uri)
+        Response response = client.target(URI.create("http://localhost:8080/spot-hero/api/rates/upload"))
                 .queryParam("startInterval", "2015-07-01T07:00:00Z")
                 .queryParam("endInterval", "2015-07-01T12:00:00Z")
                 .request()

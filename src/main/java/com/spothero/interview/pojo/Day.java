@@ -1,5 +1,8 @@
 package com.spothero.interview.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -8,11 +11,16 @@ import java.util.Locale;
 /**
  * Day is a class used to encapsulate the day and Interval that a user wishes to test against
  */
+@JsonInclude
+@XmlRootElement
 public class Day {
 
     private String day;
+    @JsonInclude
     private Interval interval;
+    @JsonInclude
     private String startInterval;
+    @JsonInclude
     private String endInterval;
 
     /**

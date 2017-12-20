@@ -2,7 +2,6 @@ package com.spothero.interview.util;
 
 import com.spothero.interview.dto.Rate;
 import com.spothero.interview.pojo.RateInterval;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
