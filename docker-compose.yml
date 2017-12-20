@@ -5,6 +5,9 @@ volumes:
 services:
   service:
     image: spot-hero/rate:1
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     volumes:
@@ -16,6 +19,6 @@ services:
     depends_on:
       - service
     ports:
-      - 12346:80
+      - 80:80
     volumes:
       - target-vol:/usr/share/nginx/html/

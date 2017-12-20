@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: spot-hero
+  labels:
+    app: spot-hero
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spot-hero
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: spot-hero
+          image: spot-hero/rate:1
+          ports:
+            - containerPort: 8080
+              name: spot-hero
+          volumeMounts:
+            - mountPath: /opt/app/target/
+              name: docs-volume
+        - name: spot-hero-docs
+          image: library/nginx
+          ports:
+            - containerPort: 80
+              name: spot-hero-docs
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html/
+              name: docs-volume
+          readinessProbe:
+      volumes:
+        - name: docs-volume
