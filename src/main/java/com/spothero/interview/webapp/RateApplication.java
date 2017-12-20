@@ -28,7 +28,7 @@ public class RateApplication extends Application {
     public static void main(String[] args) throws IOException {
         try {
             System.out.println("SpotHero Rate Application with Jersey and Grizzly");
-
+            System.out.println("YAY");
             // create a resource config that scans for JAX-RS resources and providers
             // in com.spothero.interview.webapp package
             final ResourceConfig rc = new ResourceConfig().packages("com.spothero.interview", "org.glassfish.jersey.media.multipart", "com.codahale.metrics.servlets")

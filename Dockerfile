@@ -7,14 +7,15 @@ ENV HOST='0.0.0.0'
 RUN mkdir -p /opt/app
 WORKDIR /opt/app
 
-# selectively add the POM file and
-# install dependencies
+## selectively add the POM file and
+## install dependencies
 COPY pom.xml /opt/app/
-RUN mvn install
-
-# rest of the project
+RUN mvn clean install
+#
+## rest of the project
 COPY src /opt/app/src
 RUN mvn package
+#ADD /target/ /target/
 
 # execute it
 CMD ["mvn", "exec:java"]
